@@ -40,3 +40,9 @@ LIBS += C:\opencv\opencv\release\install\x64\mingw\bin\libopencv_tracking452.dll
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Video test/cars.mp4 \
+    Video test/cars.mp4 \
+    Video test/test.mp4 \
+    Video test/test.mp4

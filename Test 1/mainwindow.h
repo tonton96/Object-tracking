@@ -15,13 +15,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_btbClick_clicked();
-
-    void on_btbClick_pressed();
-
-    void setTextHello();
-
 private:
     Ui::MainWindow *ui;
 };
