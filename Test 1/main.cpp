@@ -1,52 +1,46 @@
-/*
 #include "mainwindow.h"
-
 #include <QApplication>
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    cv:: Mat image;
-    char keyPress;
-    image= cv::imread("tonton_friends_2_14.png", cv:: IMREAD_COLOR);
-    //image= cv::imread("D:\\Image\\tonton_friends_2_14.png", cv:: IMREAD_COLOR);
-    cv:: imshow("Hello", image);
-
-    while(true){
-        keyPress=  cv::waitKey();
-        if(keyPress=='q'){
-            break;
-        }
-    }
-
+    MainWindow w;
+    w.show();
     return a.exec();
 }
-*/
 
+/*
 #include <opencv2/opencv.hpp>
 #include <opencv2/tracking.hpp>
 #include <opencv2/highgui.hpp>
 #include "QDebug"
+#include "objecttracking.h"
 
 using namespace cv;
 using namespace std;
-// Convert to string
 
 #define SSTR( x ) static_cast< std::ostringstream & >( \
 ( std::ostringstream() << std::dec << x ) ).str()
 
+void Show();
 
 int main()
 {
+    //Show();
+    ObjectTracking obj("C:\\Users\\lcv06\\OneDrive\\Desktop\\Object tracking\\Video test\\test.mp4");
+    //obj.SelectRoi();
+    obj.PlayVideo();
+    qDebug()<<"End";
+    return 0;
+}
+
+void Show(){
     // Create video capturing object
     // 0 opens default camera, otherwise filename as argument
     cv::VideoCapture video("C:\\Users\\lcv06\\OneDrive\\Desktop\\Object tracking\\Video test\\test.mp4");
 
     // Check that video is opened
-    if (!video.isOpened()) return -1;
+    if (!video.isOpened()) return;
 
     // For saving the frame
     cv::Mat frame;
@@ -86,5 +80,5 @@ int main()
 
     video.release();
     cv::destroyAllWindows();
-    return 0;
 }
+*/

@@ -10,10 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    objecttracking.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    objecttracking.h
 
 FORMS += \
     mainwindow.ui
