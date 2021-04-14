@@ -14,13 +14,21 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete  objTracking;
 }
 
 void MainWindow:: InitNewVideo(std::string path){
     objTracking = new ObjectTracking(path);
-    ui->lblName->setText(QString::fromUtf8(path.c_str()));
-    isPlaying= false;
-    ui->btnPlay->setText("Play");
+    if(objTracking->created){
+        ui->lblName->setText(QString::fromUtf8(path.c_str()));
+        isPlaying= false;
+        ui->btnPlay->setEnabled(true);
+        ui->btnSelect->setEnabled(true);
+    }
+    else{
+        ui->btnPlay->setEnabled(false);
+        ui->btnSelect->setEnabled(false);
+    }
 }
 
 void MainWindow:: PlayVideo(){
@@ -36,7 +44,7 @@ void MainWindow:: PauseVideo(){
 }
 
 void MainWindow:: SelectRoi(){
-
+    objTracking->SelectRoi();
 }
 
 void MainWindow::on_btnSelectFile_clicked()
@@ -64,6 +72,14 @@ void MainWindow::on_btnPlay_clicked()
     }
 }
 
+void MainWindow::on_btnSelect_clicked()
+{
+    if(objTracking!=nullptr){
+        SelectRoi();
+    }
+}
+
 void MainWindow::closeEvent (QCloseEvent *event){
     delete objTracking;
+    objTracking= nullptr;
 }

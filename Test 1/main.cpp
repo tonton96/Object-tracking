@@ -1,3 +1,4 @@
+
 #include "mainwindow.h"
 #include <QApplication>
 
@@ -26,11 +27,7 @@ void Show();
 
 int main()
 {
-    //Show();
-    ObjectTracking obj("C:\\Users\\lcv06\\OneDrive\\Desktop\\Object tracking\\Video test\\test.mp4");
-    //obj.SelectRoi();
-    obj.PlayVideo();
-    qDebug()<<"End";
+    Show();
     return 0;
 }
 

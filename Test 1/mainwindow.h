@@ -27,6 +27,7 @@ public:
 private slots:
     void on_btnSelectFile_clicked();
     void on_btnPlay_clicked();
+    void on_btnSelect_clicked();
     void closeEvent (QCloseEvent *event);
 
 private:

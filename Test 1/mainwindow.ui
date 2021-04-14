@@ -41,9 +41,12 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnPlay">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>170</x>
       <y>30</y>
       <width>91</width>
       <height>41</height>
@@ -64,6 +67,22 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnSelect">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>30</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select </string>
     </property>
    </widget>
   </widget>
