@@ -18,7 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public:
-    void InitNewVideo(std::string path);
+    void InitNewVideo(QString path);
     void PlayVideo();
     void PauseVideo();
     void SelectRoi();

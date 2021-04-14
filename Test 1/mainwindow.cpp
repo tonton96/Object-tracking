@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "QFileDialog"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,10 +18,11 @@ MainWindow::~MainWindow()
     delete  objTracking;
 }
 
-void MainWindow:: InitNewVideo(std::string path){
-    objTracking = new ObjectTracking(path);
+void MainWindow:: InitNewVideo(QString path){
+    std::string stdpath = path.toStdString();
+    objTracking = new ObjectTracking(stdpath);
     if(objTracking->created){
-        ui->lblName->setText(QString::fromUtf8(path.c_str()));
+        ui->lblName->setText(path);
         isPlaying= false;
         ui->btnPlay->setEnabled(true);
         ui->btnSelect->setEnabled(true);
@@ -52,12 +54,13 @@ void MainWindow::on_btnSelectFile_clicked()
     if(objTracking!=nullptr){
         delete (objTracking);
     }
-
-    /*
-     * get video path
-    */
-
-    InitNewVideo("C:\\Users\\lcv06\\OneDrive\\Desktop\\Object tracking\\Video test\\test.mp4");
+    QString fileName = QFileDialog::getOpenFileName(
+                this,
+                tr("Open file"),
+                "C://",
+                "Video file(*.mp4);;Video file (*.avi)"
+                );
+    InitNewVideo(fileName);
 }
 
 void MainWindow::on_btnPlay_clicked()
