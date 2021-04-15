@@ -30,6 +30,8 @@ private slots:
     void on_btnSelect_clicked();
     void closeEvent (QCloseEvent *event);
 
+    void on_btnClose_clicked();
+
 private:
     Ui::MainWindow *ui;
     ObjectTracking *objTracking;

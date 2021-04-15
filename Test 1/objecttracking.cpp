@@ -50,7 +50,6 @@ void ObjectTracking::PlayVideo(){
     }
     if(isPlay){
         video.release();
-        cv::destroyAllWindows();
     }
 }
 

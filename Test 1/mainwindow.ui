@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>436</width>
-    <height>138</height>
+    <width>485</width>
+    <height>199</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,14 +30,14 @@
    <widget class="QPushButton" name="btnSelectFile">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>30</y>
+      <x>0</x>
+      <y>0</y>
       <width>81</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>File</string>
+     <string>Open file</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnPlay">
@@ -46,8 +46,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>30</y>
+      <x>40</x>
+      <y>90</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -59,9 +59,9 @@
    <widget class="QLabel" name="lblName">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>401</width>
+      <x>100</x>
+      <y>10</y>
+      <width>381</width>
       <height>31</height>
      </rect>
     </property>
@@ -75,18 +75,33 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>30</y>
+      <x>190</x>
+      <y>90</y>
       <width>91</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Select </string>
+     <string>Tracking</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnClose">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>90</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Close</string>
     </property>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

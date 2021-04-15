@@ -23,11 +23,14 @@ void MainWindow:: InitNewVideo(QString path){
     objTracking = new ObjectTracking(stdpath);
     if(objTracking->created){
         ui->lblName->setText(path);
+        ui->btnPlay->setText("Play");
         isPlaying= false;
         ui->btnPlay->setEnabled(true);
         ui->btnSelect->setEnabled(true);
+        ui->btnClose->setEnabled(true);
     }
     else{
+        ui->btnPlay->setText("Play");
         ui->btnPlay->setEnabled(false);
         ui->btnSelect->setEnabled(false);
     }
@@ -57,10 +60,12 @@ void MainWindow::on_btnSelectFile_clicked()
     QString fileName = QFileDialog::getOpenFileName(
                 this,
                 tr("Open file"),
-                "C://",
+                QCoreApplication::applicationDirPath(),
                 "Video file(*.mp4);;Video file (*.avi)"
                 );
-    InitNewVideo(fileName);
+    if(fileName.count()>0){
+        InitNewVideo(fileName);
+    }
 }
 
 void MainWindow::on_btnPlay_clicked()
@@ -83,6 +88,22 @@ void MainWindow::on_btnSelect_clicked()
 }
 
 void MainWindow::closeEvent (QCloseEvent *event){
-    delete objTracking;
-    objTracking= nullptr;
+    if(objTracking!=nullptr){
+        delete objTracking;
+        objTracking= nullptr;
+    }
+}
+
+void MainWindow::on_btnClose_clicked()
+{
+    if(objTracking!=nullptr){
+        delete objTracking;
+        objTracking= nullptr;
+    }
+    ui->lblName->setText("");
+    ui->btnPlay->setText("Play");
+    isPlaying= false;
+    ui->btnPlay->setEnabled(false);
+    ui->btnSelect->setEnabled(false);
+    ui->btnClose->setEnabled(false);
 }
