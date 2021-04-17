@@ -20,9 +20,14 @@ class MyTracker:
     def __init__(self, filePath, outPath = None):
         self.filePath = filePath
         self.output = outPath
-        self.weights = './checkpoints/yolov4-416'
+        #if use yolov4-tiny
+        self.tiny = True
+        self.weights = './checkpoints/yolov4-tiny-416'
+        #else
+        #self.weights = './checkpoints/yolov4-416'        
+        #self.tiny = False
+
         self.size = 416
-        self.tiny = False
         self.model = 'yolov4'
         self.output_format = 'XVID'
         self.iou = 0.45
