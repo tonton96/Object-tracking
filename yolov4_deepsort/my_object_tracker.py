@@ -18,20 +18,17 @@ from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
 from tools import generate_detections as gdet
 
-flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
                     'path to weights file')
 flags.DEFINE_integer('size', 416, 'resize images to')
 flags.DEFINE_boolean('tiny', False, 'yolo or yolo-tiny')
 flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
-flags.DEFINE_string('video', './data/video/test.mp4', 'path to input video or set to 0 for webcam')
+flags.DEFINE_string('video', './data/video/cars.mp4', 'path to input video or set to 0 for webcam')
 flags.DEFINE_string('output', None, 'path to output video')
 flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.50, 'score threshold')
 flags.DEFINE_boolean('dont_show', False, 'dont show video output')
-flags.DEFINE_boolean('info', False, 'show detailed info of tracked objects')
-flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 
 def main(_argv):
     # Definition of the parameters
@@ -81,9 +78,8 @@ def main(_argv):
         return_value, frame = vid.read()
         if return_value:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            #image = Image.fromarray(frame)
         else:
-            print('Video has ended or failed, try a different video format!')
+            #print('Video has ended or failed, try a different video format!')
             break
 
         frame_size = frame.shape[:2]
@@ -132,7 +128,7 @@ def main(_argv):
         allowed_classes = list(class_names.values())
         
         # custom allowed classes (uncomment line below to customize tracker for only people)
-        allowed_classes = ['person']
+        allowed_classes = ['car']
 
         # loop through objects and use class index to get class name, allow only classes in allowed_classes list
         names = []
@@ -145,10 +141,7 @@ def main(_argv):
             else:
                 names.append(class_name)
         names = np.array(names)
-        count = len(names)
-        if FLAGS.count:
-            cv2.putText(frame, "Objects being tracked: {}".format(count), (5, 35), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2, (0, 255, 0), 2)
-            print("Objects being tracked: {}".format(count))
+
         # delete detections that are not in allowed_classes
         bboxes = np.delete(bboxes, deleted_indx, axis=0)
         scores = np.delete(scores, deleted_indx, axis=0)
@@ -188,7 +181,7 @@ def main(_argv):
 
         # calculate frames per second of running detections
         fps = (int)(1.0 / (time.time() - start_time))
-        cv2.putText(frame, "FPS: " + str(fps),(100, 20),0, 0.75, (255,0,0),2)
+        cv2.putText(frame, "FPS: " + str(fps),(50, 50),0, 1, (255,0,0),3)
 
         result = np.asarray(frame)
         result = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
