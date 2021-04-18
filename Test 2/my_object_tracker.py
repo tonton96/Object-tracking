@@ -61,7 +61,12 @@ class MyTracker:
             vid = cv2.VideoCapture(int(video_path))
         except:
             vid = cv2.VideoCapture(video_path)
+        
 
+        if not vid.isOpened():
+            print("error")
+            return
+            
         out = None
 
         # get video ready to save locally if flag is set

@@ -3,7 +3,7 @@ from tkinter import filedialog as fd
 import my_object_tracker as obt
 
 def openFile():
-    name = fd.askopenfilename()
+    name = fd.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Video file","*.mp4"),("Video file","*.*")))
     tracker = obt.MyTracker(name)
     tracker.tracking()
 
