@@ -8,22 +8,21 @@
 
 class ObjectTracking
 {
-public:
-    bool created;
 private:
     bool isTracking;
-    bool isPlay;
-    const std::string windownName = "Object tracking";
     cv::VideoCapture video;
-    cv::Mat frame;
     cv::Ptr<cv::Tracker> tracker;
-    cv::Rect trackingBox;
+    cv::Rect trackingBox;    
 
 public:    
     ObjectTracking(std::string path);
-    void PlayVideo();
-    void PauseVideo();
-    void SelectRoi();
+    float GetVideoFps();
+    bool IsVideoOpened();
+    bool IsTracking();
+    void EnableTracking();
+    void DisableTracking();
+    void InitTracker(cv::Mat frame, cv::Rect trackingBox);
+    cv::Mat GetFrame();
 public:
     ~ObjectTracking();
 };

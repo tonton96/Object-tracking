@@ -2,8 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <objecttracking.h>
+#include <QMainWindow>
+#include <QDebug>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QImage>
+#include <QPixmap>
 #include <QCloseEvent>
+#include <QMessageBox>
+
+#include <objecttracking.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,11 +38,10 @@ private slots:
     void on_btnSelect_clicked();
     void closeEvent (QCloseEvent *event);
 
-    void on_btnClose_clicked();
-
 private:
     Ui::MainWindow *ui;
     ObjectTracking *objTracking;
     bool isPlaying;
+    QGraphicsPixmapItem pixmap;
 };
 #endif // MAINWINDOW_H

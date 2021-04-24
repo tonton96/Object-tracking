@@ -10,46 +10,79 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     isPlaying= false;
     objTracking= nullptr;
+
+    ui->graphicsView->setScene(new QGraphicsScene(this));
+    ui->graphicsView->scene()->addItem(&pixmap);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete  objTracking;
+    if(objTracking!= nullptr){
+        delete  objTracking;
+        objTracking=nullptr;
+    }
 }
 
 void MainWindow:: InitNewVideo(QString path){
     std::string stdpath = path.toStdString();
     objTracking = new ObjectTracking(stdpath);
-    if(objTracking->created){
-        ui->lblName->setText(path);
-        ui->btnPlay->setText("Play");
-        isPlaying= false;
-        ui->btnPlay->setEnabled(true);
-        ui->btnSelect->setEnabled(true);
-        ui->btnClose->setEnabled(true);
-    }
-    else{
-        ui->btnPlay->setText("Play");
-        ui->btnPlay->setEnabled(false);
-        ui->btnSelect->setEnabled(false);
-    }
+    isPlaying= false;
+    ui->btnPlay->setText("Play");
 }
 
 void MainWindow:: PlayVideo(){
-    isPlaying= true;
-    ui->btnPlay->setText("Pause");
-    objTracking->PlayVideo();
+    if(objTracking->IsVideoOpened()){
+        isPlaying= true;
+        ui->btnPlay->setText("Pause");
+        while (objTracking->IsVideoOpened() && isPlaying) {
+            cv::Mat frame = objTracking->GetFrame();
+            if(!frame.empty())
+            {
+                QImage qimg(frame.data,
+                            frame.cols,
+                            frame.rows,
+                            frame.step,
+                            QImage::Format_RGB888);
+                pixmap.setPixmap( QPixmap::fromImage(qimg.rgbSwapped()) );
+                ui->graphicsView->fitInView(&pixmap, Qt::KeepAspectRatio);
+            }
+            else{
+                delete objTracking;
+                objTracking= nullptr;
+                isPlaying = false;
+                ui->btnPlay->setText("Play");
+                break;
+            }
+            if(objTracking!=nullptr){
+                if(!objTracking->IsTracking()){
+                    int fps = objTracking->GetVideoFps();
+                    cv::waitKey(1000/fps);
+                }
+                else{
+                    cv::waitKey(1);
+                }
+            }
+            qApp->processEvents();
+        }
+    }
 }
 
-void MainWindow:: PauseVideo(){
-    isPlaying= false;
-    ui->btnPlay->setText("Play");
-    objTracking->PauseVideo();
-}
 
 void MainWindow:: SelectRoi(){
-    objTracking->SelectRoi();
+    if(objTracking != nullptr){
+        if(objTracking->IsVideoOpened()){
+            cv::Mat frame = objTracking->GetFrame();
+            if(!frame.empty()){
+                isPlaying= false;
+                cv::Rect trackingBox = cv::selectROI("windownName",frame, false);
+                cv::destroyAllWindows();
+                isPlaying= true;
+                objTracking->InitTracker(frame,trackingBox);
+                objTracking->EnableTracking();
+            }
+        }
+    }
 }
 
 void MainWindow::on_btnSelectFile_clicked()
@@ -64,7 +97,10 @@ void MainWindow::on_btnSelectFile_clicked()
                 "Video file(*.mp4);;Video file (*.avi)"
                 );
     if(fileName.count()>0){
-        InitNewVideo(fileName);
+        ui->lblName->setText(fileName);
+    }
+    else{
+        ui->lblName->setText("Error");
     }
 }
 
@@ -74,9 +110,23 @@ void MainWindow::on_btnPlay_clicked()
         PauseVideo();
     }
     else{
-        if(objTracking!=nullptr){
-            PlayVideo();
+        if(objTracking == nullptr){
+            if(ui->lblName->text().length()>0){
+                InitNewVideo(ui->lblName->text());
+            }
         }
+        if(objTracking!=nullptr){
+            if(objTracking->IsVideoOpened()){
+                PlayVideo();
+            }
+        }
+    }
+}
+
+void MainWindow:: PauseVideo(){
+    if(objTracking->IsVideoOpened()){
+        isPlaying= false;
+        ui->btnPlay->setText("Play");
     }
 }
 
@@ -92,18 +142,4 @@ void MainWindow::closeEvent (QCloseEvent *event){
         delete objTracking;
         objTracking= nullptr;
     }
-}
-
-void MainWindow::on_btnClose_clicked()
-{
-    if(objTracking!=nullptr){
-        delete objTracking;
-        objTracking= nullptr;
-    }
-    ui->lblName->setText("");
-    ui->btnPlay->setText("Play");
-    isPlaying= false;
-    ui->btnPlay->setEnabled(false);
-    ui->btnSelect->setEnabled(false);
-    ui->btnClose->setEnabled(false);
 }

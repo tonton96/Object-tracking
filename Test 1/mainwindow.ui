@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
-    <height>199</height>
+    <width>992</width>
+    <height>685</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,12 +42,12 @@
    </widget>
    <widget class="QPushButton" name="btnPlay">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>90</y>
+      <x>790</x>
+      <y>0</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -59,10 +59,10 @@
    <widget class="QLabel" name="lblName">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>10</y>
-      <width>381</width>
-      <height>31</height>
+      <x>90</x>
+      <y>0</y>
+      <width>681</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -71,12 +71,12 @@
    </widget>
    <widget class="QPushButton" name="btnSelect">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>90</y>
+      <x>890</x>
+      <y>0</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -85,20 +85,14 @@
      <string>Tracking</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnClose">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
+   <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>90</y>
-      <width>91</width>
-      <height>41</height>
+      <x>5</x>
+      <y>51</y>
+      <width>981</width>
+      <height>631</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>Close</string>
     </property>
    </widget>
   </widget>
