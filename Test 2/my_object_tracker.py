@@ -57,6 +57,9 @@ class MyTracker:
             self.vid = cv2.VideoCapture(int(video_path))
         except:
             self.vid = cv2.VideoCapture(video_path)
+        
+        self.curentTracks = []
+        self.lastTracks = []
 
     def tracking(self):
         return_value, frame = self.vid.read()
@@ -150,9 +153,12 @@ class MyTracker:
         self.tracker.predict()
         self.tracker.update(detections)
 
+        self.curentTracks = []
         # update tracks
         for track in self.tracker.tracks:
-            if not track.is_confirmed() or track.time_since_update > 1:
+            if not track.is_confirmed() or track.time_since_update > 1:                
+                #if not track.is_confirmed():
+                    #print(track.get_class() + "-" + str(track.track_id) +' is missing')
                 continue 
             bbox = track.to_tlbr()
             class_name = track.get_class()
@@ -163,6 +169,15 @@ class MyTracker:
             cv2.rectangle(frame, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), color, 2)
             cv2.rectangle(frame, (int(bbox[0]), int(bbox[1]-30)), (int(bbox[0])+(len(class_name)+len(str(track.track_id)))*17, int(bbox[1])), color, -1)
             cv2.putText(frame, class_name + "-" + str(track.track_id),(int(bbox[0]), int(bbox[1]-10)),0, 0.75, (255,255,255),2)
+            self.curentTracks.append(class_name + "_" + str(track.track_id))
+
+        cv2.putText(frame, 'count: '+ str(len(self.curentTracks)) + ' objects',(50, 150),0, 1, (255,0,0),3)
+        idx = 0
+        for lstName in self.lastTracks:
+            if lstName not in self.curentTracks:
+                idx+=1
+        cv2.putText(frame, 'missing: '+ str(idx) + ' objects',(50, 100),0, 1, (255,0,0),3)        
+        self.lastTracks = self.curentTracks
 
         # calculate frames per second of running detections
         fps = (int)(1.0 / (time.time() - start_time))
