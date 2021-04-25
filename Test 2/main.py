@@ -26,6 +26,7 @@ class App:
     def openFile(self):
         name = fd.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Video file","*.mp4"),("Video file","*.*")))
         if name:
+            self.openFileBtn['state'] = 'disable'
             self.tracker = obt.MyTracker(name)
             self.tracker.trackingInit()
             self.showVideo()
@@ -49,9 +50,28 @@ class App:
         if self.tracker:
             (ret, frame) = self.tracker.tracking() 
             if ret:
-                self.photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
+                im = PIL.Image.fromarray(frame)
+                imgtk = PIL.ImageTk.PhotoImage(image=im)
+                wide = imgtk.width()
+                high = imgtk.height()
+                viewwide = 1280
+                viewhigh = 720
+                if wide > viewwide or high > viewhigh:
+                    wide_factor = viewwide / wide
+                    high_factor = viewhigh / high
+                    factor = min(wide_factor, high_factor)
+                    wide = int(wide * factor)
+                    if wide <= 0 : wide = 1
+                    high = int(high * factor)
+                    if high <= 0 : high = 1
+                    im=im.resize((wide, high), PIL.Image.ANTIALIAS)
+                    imgtk = PIL.ImageTk.PhotoImage(image=im)
+
+                self.photo = imgtk                
                 self.canvas.create_image(0, 0, image = self.photo, anchor = tkinter.NW)
                 self.root.after(self.delay, self.showVideo)
+            else:
+                self.openFileBtn['state'] = 'normal'
 
 if __name__ == '__main__':
     App() 
