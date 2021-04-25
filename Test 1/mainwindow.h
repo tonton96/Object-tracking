@@ -25,21 +25,20 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-public:
+private:
     void InitNewVideo(QString path);
     void PlayVideo();
     void PauseVideo();
     void SelectRoi(cv::Rect rect);
-    void SelectRoi();
+    cv::Rect GetRectBy2Point(QPointF from, QPointF to, int width, int height);
+public:
     void OnReleaseMouse(QGraphicsSceneMouseEvent * mouseEvent);
     void OnPressMouse(QGraphicsSceneMouseEvent * mouseEvent);
     void OnMoveMouse(QGraphicsSceneMouseEvent * mouseEvent);
-    void OnDoubleClickMouse(QGraphicsSceneMouseEvent * mouseEvent);
 
 private slots:
     void on_btnSelectFile_clicked();
     void on_btnPlay_clicked();
-    void on_btnSelect_clicked();
     void closeEvent (QCloseEvent *event);
 
 private:
@@ -47,6 +46,7 @@ private:
     ObjectTracking *objTracking;
     bool isPlaying;
     QGraphicsPixmapItem pixmap;
+    QGraphicsRectItem* rectangle;
 
     QPointF from, to;
 };

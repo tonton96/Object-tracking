@@ -11,14 +11,6 @@ GraphicsScene::GraphicsScene(QObject *parent) :
     this->setBackgroundBrush(Qt::gray);
 }
 
-void GraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent * mouseEvent)
-{
-    if(this->main != nullptr){
-        this->main->OnDoubleClickMouse(mouseEvent);
-    }
-    QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-}
-
 void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent)
 {
     if(this->main != nullptr){

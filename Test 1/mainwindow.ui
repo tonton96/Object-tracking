@@ -46,7 +46,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>880</x>
       <y>0</y>
       <width>91</width>
       <height>41</height>
@@ -67,22 +67,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnSelect">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>0</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tracking</string>
     </property>
    </widget>
    <widget class="QGraphicsView" name="graphicsView">

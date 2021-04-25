@@ -10,9 +10,10 @@ ObjectTracking::ObjectTracking(std::string path)
 {
     isTracking= false;
     video.open(path);
-    width= video.get(cv::CAP_PROP_FRAME_WIDTH);
-    height = video.get(cv::CAP_PROP_FRAME_HEIGHT);
-    tracker = TrackerKCF::create();
+    if(video.isOpened()){
+        width= video.get(cv::CAP_PROP_FRAME_WIDTH);
+        height = video.get(cv::CAP_PROP_FRAME_HEIGHT);
+    }
 }
 
 float ObjectTracking::GetVideoFps(){
@@ -41,6 +42,7 @@ void ObjectTracking:: DisableTracking(){
 
 void ObjectTracking:: InitTracker(cv::Mat frame, cv::Rect trackingBox){
     this->trackingBox = trackingBox;
+    tracker = TrackerKCF::create();
     tracker->init(frame, trackingBox);
 }
 
