@@ -29,8 +29,12 @@ public:
     void InitNewVideo(QString path);
     void PlayVideo();
     void PauseVideo();
+    void SelectRoi(cv::Rect rect);
     void SelectRoi();
-
+    void OnReleaseMouse(QGraphicsSceneMouseEvent * mouseEvent);
+    void OnPressMouse(QGraphicsSceneMouseEvent * mouseEvent);
+    void OnMoveMouse(QGraphicsSceneMouseEvent * mouseEvent);
+    void OnDoubleClickMouse(QGraphicsSceneMouseEvent * mouseEvent);
 
 private slots:
     void on_btnSelectFile_clicked();
@@ -43,5 +47,7 @@ private:
     ObjectTracking *objTracking;
     bool isPlaying;
     QGraphicsPixmapItem pixmap;
+
+    QPointF from, to;
 };
 #endif // MAINWINDOW_H

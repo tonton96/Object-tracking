@@ -13,7 +13,9 @@ private:
     cv::VideoCapture video;
     cv::Ptr<cv::Tracker> tracker;
     cv::Rect trackingBox;    
-
+public:
+    int width;
+    int height;
 public:    
     ObjectTracking(std::string path);
     float GetVideoFps();

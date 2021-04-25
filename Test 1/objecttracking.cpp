@@ -10,6 +10,8 @@ ObjectTracking::ObjectTracking(std::string path)
 {
     isTracking= false;
     video.open(path);
+    width= video.get(cv::CAP_PROP_FRAME_WIDTH);
+    height = video.get(cv::CAP_PROP_FRAME_HEIGHT);
     tracker = TrackerKCF::create();
 }
 
