@@ -39,7 +39,10 @@ void MainWindow:: PlayVideo(){
     if(objTracking->IsVideoOpened()){
         isPlaying= true;
         ui->btnPlay->setText("Pause");
-        while (objTracking->IsVideoOpened() && isPlaying) {
+        while (objTracking!=nullptr) {
+            if(!(objTracking->IsVideoOpened() && isPlaying)){
+                break;
+            }
             cv::Mat frame = objTracking->GetFrame();
             if(!frame.empty())
             {
@@ -95,10 +98,7 @@ void MainWindow:: SelectRoi(cv::Rect trackingBox){
 
 void MainWindow::on_btnSelectFile_clicked()
 {
-    if(objTracking!=nullptr){
-        delete objTracking;
-        objTracking = nullptr;
-    }
+    PauseVideo();
     QString fileName = QFileDialog::getOpenFileName(
                 this,
                 tr("Open file"),
@@ -106,10 +106,19 @@ void MainWindow::on_btnSelectFile_clicked()
                 "Video file(*.mp4);;Video file (*.avi)"
                 );
     if(fileName.count()>0){
+        if(objTracking!=nullptr){
+            delete objTracking;
+            objTracking = nullptr;
+        }
         ui->lblName->setText(fileName);
+        InitNewVideo(fileName);
     }
     else{
-        ui->lblName->setText("Error");
+        if(objTracking!=nullptr){
+            if(objTracking->IsVideoOpened()){
+                PlayVideo();
+            }
+        }
     }
 }
 
@@ -118,11 +127,10 @@ void MainWindow::on_btnPlay_clicked()
     if(isPlaying){
         PauseVideo();
     }
-    else{
-        if(objTracking == nullptr){
-            if(ui->lblName->text().length()>0){
-                InitNewVideo(ui->lblName->text());
-            }
+    else{        
+        if(rectangle!=nullptr){
+            delete  rectangle;
+            rectangle =nullptr;
         }
         if(objTracking!=nullptr){
             if(objTracking->IsVideoOpened()){
@@ -135,6 +143,10 @@ void MainWindow::on_btnPlay_clicked()
 void MainWindow:: PauseVideo(){
     isPlaying= false;
     ui->btnPlay->setText("Play");
+    if(rectangle!=nullptr){
+        delete  rectangle;
+        rectangle =nullptr;
+    }
 }
 
 void MainWindow::OnReleaseMouse(QGraphicsSceneMouseEvent * mouseEvent){
@@ -144,8 +156,10 @@ void MainWindow::OnReleaseMouse(QGraphicsSceneMouseEvent * mouseEvent){
         int imgHeight = objTracking->height;
         cv::Rect box = GetRectBy2Point(from, to, imgWidth, imgHeight);
         SelectRoi(box);
-        delete  rectangle;
-        rectangle =nullptr;
+        if(isPlaying){
+            delete  rectangle;
+            rectangle =nullptr;
+        }
         isDraging= false;
     }
 }
