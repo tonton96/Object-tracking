@@ -45,9 +45,9 @@ private:
     Ui::MainWindow *ui;
     ObjectTracking *objTracking;
     bool isPlaying;
+    bool isDraging;
     QGraphicsPixmapItem pixmap;
     QGraphicsRectItem* rectangle;
-
     QPointF from, to;
 };
 #endif // MAINWINDOW_H

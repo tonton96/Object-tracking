@@ -9,6 +9,7 @@ GraphicsScene::GraphicsScene(QObject *parent) :
     QGraphicsScene(parent)
 {
     this->setBackgroundBrush(Qt::gray);
+    this->main= nullptr;
 }
 
 void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent)

@@ -10,7 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     isPlaying= false;
+    isDraging= false;
     objTracking= nullptr;
+    rectangle=nullptr;
     GraphicsScene *graphicsScene= new GraphicsScene(this);
     graphicsScene->SetMain(this);
     ui->graphicsView->setScene(graphicsScene);
@@ -54,6 +56,7 @@ void MainWindow:: PlayVideo(){
                 objTracking= nullptr;
                 isPlaying = false;
                 if(rectangle!= nullptr){
+                    isDraging = false;
                     ui->graphicsView->scene()->removeItem(rectangle);
                     delete  rectangle;
                     rectangle = nullptr;
@@ -141,17 +144,21 @@ void MainWindow::OnReleaseMouse(QGraphicsSceneMouseEvent * mouseEvent){
         int imgHeight = objTracking->height;
         cv::Rect box = GetRectBy2Point(from, to, imgWidth, imgHeight);
         SelectRoi(box);
+        delete  rectangle;
+        rectangle =nullptr;
+        isDraging= false;
     }
 }
 
 void MainWindow::OnPressMouse(QGraphicsSceneMouseEvent * mouseEvent){
     if(objTracking!=nullptr){
         from = mouseEvent->scenePos();
+        isDraging= true;
     }
 }
 
 void MainWindow::OnMoveMouse(QGraphicsSceneMouseEvent * mouseEvent){
-    if(objTracking!=nullptr){
+    if(objTracking!=nullptr && isDraging){
         to = mouseEvent->scenePos();
         int imgWidth = objTracking->width;
         int imgHeight = objTracking->height;
